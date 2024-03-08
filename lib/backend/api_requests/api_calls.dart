@@ -12,7 +12,7 @@ class AmplitudeGroup {
   static String baseUrl = 'https://api2.amplitude.com';
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
-    'api_key': 'a4199a3a5690be1f193dbc7cb244788f',
+    'api_key': '3d0eb57bc18a0c8e482a432fd3dc4f5c',
   };
   static AnaliticsCall analiticsCall = AnaliticsCall();
 }
@@ -25,7 +25,7 @@ class AnaliticsCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "api_key": "a4199a3a5690be1f193dbc7cb244788f",
+  "api_key": "3d0eb57bc18a0c8e482a432fd3dc4f5c",
   "events": [
     {
       "project": "$project",
@@ -41,7 +41,7 @@ class AnaliticsCall {
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
-        'api_key': 'a4199a3a5690be1f193dbc7cb244788f',
+        'api_key': '3d0eb57bc18a0c8e482a432fd3dc4f5c',
       },
       params: {},
       body: ffApiRequestBody,
