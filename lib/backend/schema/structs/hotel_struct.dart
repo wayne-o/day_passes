@@ -1,22 +1,27 @@
 // ignore_for_file: unnecessary_getters_setters
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class HotelStruct extends BaseStruct {
+class HotelStruct extends FFFirebaseStruct {
   HotelStruct({
     String? image,
     String? name,
     String? location,
     double? price,
     double? oldPrice,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _image = image,
         _name = name,
         _location = location,
         _price = price,
-        _oldPrice = oldPrice;
+        _oldPrice = oldPrice,
+        super(firestoreUtilData);
 
   // "image" field.
   String? _image;
@@ -146,6 +151,10 @@ HotelStruct createHotelStruct({
   String? location,
   double? price,
   double? oldPrice,
+  Map<String, dynamic> fieldValues = const {},
+  bool clearUnsetFields = true,
+  bool create = false,
+  bool delete = false,
 }) =>
     HotelStruct(
       image: image,
@@ -153,4 +162,68 @@ HotelStruct createHotelStruct({
       location: location,
       price: price,
       oldPrice: oldPrice,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
+
+HotelStruct? updateHotelStruct(
+  HotelStruct? hotel, {
+  bool clearUnsetFields = true,
+  bool create = false,
+}) =>
+    hotel
+      ?..firestoreUtilData = FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+      );
+
+void addHotelStructData(
+  Map<String, dynamic> firestoreData,
+  HotelStruct? hotel,
+  String fieldName, [
+  bool forFieldValue = false,
+]) {
+  firestoreData.remove(fieldName);
+  if (hotel == null) {
+    return;
+  }
+  if (hotel.firestoreUtilData.delete) {
+    firestoreData[fieldName] = FieldValue.delete();
+    return;
+  }
+  final clearFields =
+      !forFieldValue && hotel.firestoreUtilData.clearUnsetFields;
+  if (clearFields) {
+    firestoreData[fieldName] = <String, dynamic>{};
+  }
+  final hotelData = getHotelFirestoreData(hotel, forFieldValue);
+  final nestedData = hotelData.map((k, v) => MapEntry('$fieldName.$k', v));
+
+  final mergeFields = hotel.firestoreUtilData.create || clearFields;
+  firestoreData
+      .addAll(mergeFields ? mergeNestedFields(nestedData) : nestedData);
+}
+
+Map<String, dynamic> getHotelFirestoreData(
+  HotelStruct? hotel, [
+  bool forFieldValue = false,
+]) {
+  if (hotel == null) {
+    return {};
+  }
+  final firestoreData = mapToFirestore(hotel.toMap());
+
+  // Add any Firestore field values
+  hotel.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
+
+  return forFieldValue ? mergeNestedFields(firestoreData) : firestoreData;
+}
+
+List<Map<String, dynamic>> getHotelListFirestoreData(
+  List<HotelStruct>? hotels,
+) =>
+    hotels?.map((e) => getHotelFirestoreData(e, true)).toList() ?? [];

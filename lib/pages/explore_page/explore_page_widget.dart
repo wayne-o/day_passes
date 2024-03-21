@@ -28,11 +28,7 @@ class _ExplorePageWidgetState extends State<ExplorePageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Explore page',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
 
     _model.textController ??= TextEditingController();

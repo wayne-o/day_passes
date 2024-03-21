@@ -29,11 +29,7 @@ class _MyBookingWidgetState extends State<MyBookingWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Booking page',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
 
     _model.tabBarController = TabController(

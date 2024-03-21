@@ -10,7 +10,6 @@ import '/select_hotel/room_and_guests/room_and_guests_widget.dart';
 import '/select_hotel/select_dates/select_dates_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';
 import 'booking_hotel_model.dart';
 export 'booking_hotel_model.dart';
 
@@ -44,11 +43,7 @@ class _BookingHotelWidgetState extends State<BookingHotelWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Booking hotel page',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
   }
 
@@ -61,8 +56,6 @@ class _BookingHotelWidgetState extends State<BookingHotelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)

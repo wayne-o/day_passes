@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/profile/log_out/log_out_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';
 import 'profile_model.dart';
 export 'profile_model.dart';
 
@@ -28,11 +27,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Profile page',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
   }
 
@@ -45,8 +40,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)

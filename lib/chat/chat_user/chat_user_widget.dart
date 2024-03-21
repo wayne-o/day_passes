@@ -29,11 +29,7 @@ class _ChatUserWidgetState extends State<ChatUserWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Chat detailed page',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
 
     _model.textController ??= TextEditingController();

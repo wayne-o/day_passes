@@ -39,11 +39,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
           true,
         );
       });
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Open app',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
   }
 

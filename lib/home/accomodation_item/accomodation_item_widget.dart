@@ -48,7 +48,7 @@ class _AccomodationItemWidgetState extends State<AccomodationItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110.0,
+      height: 182.0,
       constraints: const BoxConstraints(
         maxHeight: 150.0,
       ),
@@ -98,12 +98,16 @@ class _AccomodationItemWidgetState extends State<AccomodationItemWidget> {
                   ),
                 ),
                 Expanded(
-                  child: Text(
-                    widget.name!,
-                    style: FlutterFlowTheme.of(context).titleMedium.override(
-                          fontFamily: 'Plus Jakarta Sans',
-                          fontWeight: FontWeight.w800,
-                        ),
+                  child: Align(
+                    alignment: const AlignmentDirectional(-4.0, -1.0),
+                    child: Text(
+                      widget.name!,
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                            fontFamily: 'Plus Jakarta Sans',
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w800,
+                          ),
+                    ),
                   ),
                 ),
                 Text(

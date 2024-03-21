@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "776094584961",
+    "project_id": "day-passes-c61nwx",
+    "storage_bucket": "day-passes-c61nwx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776094584961:android:47a076ceef2994b77fbd80",
+        "android_client_info": {
+          "package_name": "com.pollenapp.daypasses"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyl4a8yi9wtfz0TkdDw7djqXMy_68lWvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

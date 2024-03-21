@@ -1,11 +1,14 @@
 // ignore_for_file: unnecessary_getters_setters
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class BookingStruct extends BaseStruct {
+class BookingStruct extends FFFirebaseStruct {
   BookingStruct({
     DateTime? date,
     String? status,
@@ -13,12 +16,14 @@ class BookingStruct extends BaseStruct {
     String? name,
     String? description,
     double? price,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _date = date,
         _status = status,
         _image = image,
         _name = name,
         _description = description,
-        _price = price;
+        _price = price,
+        super(firestoreUtilData);
 
   // "date" field.
   DateTime? _date;
@@ -166,6 +171,10 @@ BookingStruct createBookingStruct({
   String? name,
   String? description,
   double? price,
+  Map<String, dynamic> fieldValues = const {},
+  bool clearUnsetFields = true,
+  bool create = false,
+  bool delete = false,
 }) =>
     BookingStruct(
       date: date,
@@ -174,4 +183,68 @@ BookingStruct createBookingStruct({
       name: name,
       description: description,
       price: price,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
+
+BookingStruct? updateBookingStruct(
+  BookingStruct? booking, {
+  bool clearUnsetFields = true,
+  bool create = false,
+}) =>
+    booking
+      ?..firestoreUtilData = FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+      );
+
+void addBookingStructData(
+  Map<String, dynamic> firestoreData,
+  BookingStruct? booking,
+  String fieldName, [
+  bool forFieldValue = false,
+]) {
+  firestoreData.remove(fieldName);
+  if (booking == null) {
+    return;
+  }
+  if (booking.firestoreUtilData.delete) {
+    firestoreData[fieldName] = FieldValue.delete();
+    return;
+  }
+  final clearFields =
+      !forFieldValue && booking.firestoreUtilData.clearUnsetFields;
+  if (clearFields) {
+    firestoreData[fieldName] = <String, dynamic>{};
+  }
+  final bookingData = getBookingFirestoreData(booking, forFieldValue);
+  final nestedData = bookingData.map((k, v) => MapEntry('$fieldName.$k', v));
+
+  final mergeFields = booking.firestoreUtilData.create || clearFields;
+  firestoreData
+      .addAll(mergeFields ? mergeNestedFields(nestedData) : nestedData);
+}
+
+Map<String, dynamic> getBookingFirestoreData(
+  BookingStruct? booking, [
+  bool forFieldValue = false,
+]) {
+  if (booking == null) {
+    return {};
+  }
+  final firestoreData = mapToFirestore(booking.toMap());
+
+  // Add any Firestore field values
+  booking.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
+
+  return forFieldValue ? mergeNestedFields(firestoreData) : firestoreData;
+}
+
+List<Map<String, dynamic>> getBookingListFirestoreData(
+  List<BookingStruct>? bookings,
+) =>
+    bookings?.map((e) => getBookingFirestoreData(e, true)).toList() ?? [];

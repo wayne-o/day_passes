@@ -1,20 +1,25 @@
 // ignore_for_file: unnecessary_getters_setters
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class TripStruct extends BaseStruct {
+class TripStruct extends FFFirebaseStruct {
   TripStruct({
     String? image,
     String? continent,
     String? name,
     double? price,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _image = image,
         _continent = continent,
         _name = name,
-        _price = price;
+        _price = price,
+        super(firestoreUtilData);
 
   // "image" field.
   String? _image;
@@ -124,10 +129,77 @@ TripStruct createTripStruct({
   String? continent,
   String? name,
   double? price,
+  Map<String, dynamic> fieldValues = const {},
+  bool clearUnsetFields = true,
+  bool create = false,
+  bool delete = false,
 }) =>
     TripStruct(
       image: image,
       continent: continent,
       name: name,
       price: price,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
+
+TripStruct? updateTripStruct(
+  TripStruct? trip, {
+  bool clearUnsetFields = true,
+  bool create = false,
+}) =>
+    trip
+      ?..firestoreUtilData = FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+      );
+
+void addTripStructData(
+  Map<String, dynamic> firestoreData,
+  TripStruct? trip,
+  String fieldName, [
+  bool forFieldValue = false,
+]) {
+  firestoreData.remove(fieldName);
+  if (trip == null) {
+    return;
+  }
+  if (trip.firestoreUtilData.delete) {
+    firestoreData[fieldName] = FieldValue.delete();
+    return;
+  }
+  final clearFields = !forFieldValue && trip.firestoreUtilData.clearUnsetFields;
+  if (clearFields) {
+    firestoreData[fieldName] = <String, dynamic>{};
+  }
+  final tripData = getTripFirestoreData(trip, forFieldValue);
+  final nestedData = tripData.map((k, v) => MapEntry('$fieldName.$k', v));
+
+  final mergeFields = trip.firestoreUtilData.create || clearFields;
+  firestoreData
+      .addAll(mergeFields ? mergeNestedFields(nestedData) : nestedData);
+}
+
+Map<String, dynamic> getTripFirestoreData(
+  TripStruct? trip, [
+  bool forFieldValue = false,
+]) {
+  if (trip == null) {
+    return {};
+  }
+  final firestoreData = mapToFirestore(trip.toMap());
+
+  // Add any Firestore field values
+  trip.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
+
+  return forFieldValue ? mergeNestedFields(firestoreData) : firestoreData;
+}
+
+List<Map<String, dynamic>> getTripListFirestoreData(
+  List<TripStruct>? trips,
+) =>
+    trips?.map((e) => getTripFirestoreData(e, true)).toList() ?? [];

@@ -31,11 +31,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call(
-        userId: FFAppState().analyticsUserUID,
-        project: FFAppState().analyticsProjectName,
-        event: 'Home page',
-      );
+      _model.apiResult8ac = await AmplitudeGroup.analiticsCall.call();
     });
 
     _model.textController ??= TextEditingController();
@@ -281,7 +277,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Popular Today 🔥',
+                      'Popular today 🔥',
                       style: FlutterFlowTheme.of(context).titleSmall.override(
                             fontFamily: 'Plus Jakarta Sans',
                             fontWeight: FontWeight.w600,
@@ -480,56 +476,77 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                 ),
               ),
-              Builder(
-                builder: (context) {
-                  final trip = FFAppState().trips.toList();
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: List.generate(trip.length, (tripIndex) {
-                        final tripItem = trip[tripIndex];
-                        return InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            context.pushNamed(
-                              'Details',
-                              queryParameters: {
-                                'image': serializeParam(
-                                  tripItem.image,
-                                  ParamType.String,
-                                ),
-                                'name': serializeParam(
-                                  tripItem.name,
-                                  ParamType.String,
-                                ),
-                                'location': serializeParam(
-                                  tripItem.continent,
-                                  ParamType.String,
-                                ),
-                                'price': serializeParam(
-                                  tripItem.price,
-                                  ParamType.double,
-                                ),
-                              }.withoutNulls,
-                            );
-                          },
-                          child: TripItemWidget(
-                            key: Key('Keyt76_${tripIndex}_of_${trip.length}'),
-                            image: tripItem.image,
-                            continent: tripItem.continent,
-                            name: tripItem.name,
-                            price: tripItem.price,
+              FutureBuilder<ApiCallResponse>(
+                future: AmadeusGroup.getHotelOffersCall.call(),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 50.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
                           ),
-                        );
-                      })
-                          .divide(const SizedBox(width: 16.0))
-                          .addToStart(const SizedBox(width: 24.0))
-                          .addToEnd(const SizedBox(width: 24.0)),
-                    ),
+                        ),
+                      ),
+                    );
+                  }
+                  final rowGetHotelOffersResponse = snapshot.data!;
+                  return Builder(
+                    builder: (context) {
+                      final trip = FFAppState().trips.toList();
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: List.generate(trip.length, (tripIndex) {
+                            final tripItem = trip[tripIndex];
+                            return InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(
+                                  'Details',
+                                  queryParameters: {
+                                    'image': serializeParam(
+                                      tripItem.image,
+                                      ParamType.String,
+                                    ),
+                                    'name': serializeParam(
+                                      tripItem.name,
+                                      ParamType.String,
+                                    ),
+                                    'location': serializeParam(
+                                      tripItem.continent,
+                                      ParamType.String,
+                                    ),
+                                    'price': serializeParam(
+                                      tripItem.price,
+                                      ParamType.double,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              child: TripItemWidget(
+                                key: Key(
+                                    'Keyt76_${tripIndex}_of_${trip.length}'),
+                                image: tripItem.image,
+                                continent: tripItem.continent,
+                                name: tripItem.name,
+                                price: tripItem.price,
+                              ),
+                            );
+                          })
+                              .divide(const SizedBox(width: 16.0))
+                              .addToStart(const SizedBox(width: 24.0))
+                              .addToEnd(const SizedBox(width: 24.0)),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
