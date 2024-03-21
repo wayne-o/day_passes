@@ -103,7 +103,7 @@ class GetHotelOffersCall {
       ApiCallOptions(
         callName: 'getHotelOffers',
         apiUrl:
-            '${AmadeusGroup.baseUrl}/v3/shopping/hotel-offers?hotelIds=HLLON101&adults=1',
+            '${AmadeusGroup.baseUrl}/v3/shopping/hotel-offers?hotelIds=MCLONGHM&adults=1',
         callType: ApiCallType.GET,
         headers: const {},
         params: const {},

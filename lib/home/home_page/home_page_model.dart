@@ -1,5 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/home/trip_item/trip_item_widget.dart';
 import 'home_page_widget.dart' show HomePageWidget;
 import 'package:flutter/material.dart';
 
@@ -17,17 +18,23 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // Models for tripItem dynamic component.
+  late FlutterFlowDynamicModels<TripItemModel> tripItemModels;
 
   /// Initialization and disposal methods.
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    tripItemModels = FlutterFlowDynamicModels(() => TripItemModel());
+  }
 
   @override
   void dispose() {
     unfocusNode.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();
+
+    tripItemModels.dispose();
   }
 
   /// Action blocks are added here.

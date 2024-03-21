@@ -15,12 +15,26 @@ class HotelStruct extends FFFirebaseStruct {
     String? location,
     double? price,
     double? oldPrice,
+    String? type,
+    String? hotelId,
+    String? chainCode,
+    String? dupeId,
+    String? cityCode,
+    double? latitude,
+    double? longitude,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _image = image,
         _name = name,
         _location = location,
         _price = price,
         _oldPrice = oldPrice,
+        _type = type,
+        _hotelId = hotelId,
+        _chainCode = chainCode,
+        _dupeId = dupeId,
+        _cityCode = cityCode,
+        _latitude = latitude,
+        _longitude = longitude,
         super(firestoreUtilData);
 
   // "image" field.
@@ -55,12 +69,63 @@ class HotelStruct extends FFFirebaseStruct {
   void incrementOldPrice(double amount) => _oldPrice = oldPrice + amount;
   bool hasOldPrice() => _oldPrice != null;
 
+  // "type" field.
+  String? _type;
+  String get type => _type ?? '';
+  set type(String? val) => _type = val;
+  bool hasType() => _type != null;
+
+  // "hotelId" field.
+  String? _hotelId;
+  String get hotelId => _hotelId ?? '';
+  set hotelId(String? val) => _hotelId = val;
+  bool hasHotelId() => _hotelId != null;
+
+  // "chainCode" field.
+  String? _chainCode;
+  String get chainCode => _chainCode ?? '';
+  set chainCode(String? val) => _chainCode = val;
+  bool hasChainCode() => _chainCode != null;
+
+  // "dupeId" field.
+  String? _dupeId;
+  String get dupeId => _dupeId ?? '';
+  set dupeId(String? val) => _dupeId = val;
+  bool hasDupeId() => _dupeId != null;
+
+  // "cityCode" field.
+  String? _cityCode;
+  String get cityCode => _cityCode ?? '';
+  set cityCode(String? val) => _cityCode = val;
+  bool hasCityCode() => _cityCode != null;
+
+  // "latitude" field.
+  double? _latitude;
+  double get latitude => _latitude ?? 0.0;
+  set latitude(double? val) => _latitude = val;
+  void incrementLatitude(double amount) => _latitude = latitude + amount;
+  bool hasLatitude() => _latitude != null;
+
+  // "longitude" field.
+  double? _longitude;
+  double get longitude => _longitude ?? 0.0;
+  set longitude(double? val) => _longitude = val;
+  void incrementLongitude(double amount) => _longitude = longitude + amount;
+  bool hasLongitude() => _longitude != null;
+
   static HotelStruct fromMap(Map<String, dynamic> data) => HotelStruct(
         image: data['image'] as String?,
         name: data['name'] as String?,
         location: data['location'] as String?,
         price: castToType<double>(data['price']),
         oldPrice: castToType<double>(data['oldPrice']),
+        type: data['type'] as String?,
+        hotelId: data['hotelId'] as String?,
+        chainCode: data['chainCode'] as String?,
+        dupeId: data['dupeId'] as String?,
+        cityCode: data['cityCode'] as String?,
+        latitude: castToType<double>(data['latitude']),
+        longitude: castToType<double>(data['longitude']),
       );
 
   static HotelStruct? maybeFromMap(dynamic data) =>
@@ -72,6 +137,13 @@ class HotelStruct extends FFFirebaseStruct {
         'location': _location,
         'price': _price,
         'oldPrice': _oldPrice,
+        'type': _type,
+        'hotelId': _hotelId,
+        'chainCode': _chainCode,
+        'dupeId': _dupeId,
+        'cityCode': _cityCode,
+        'latitude': _latitude,
+        'longitude': _longitude,
       }.withoutNulls;
 
   @override
@@ -94,6 +166,34 @@ class HotelStruct extends FFFirebaseStruct {
         ),
         'oldPrice': serializeParam(
           _oldPrice,
+          ParamType.double,
+        ),
+        'type': serializeParam(
+          _type,
+          ParamType.String,
+        ),
+        'hotelId': serializeParam(
+          _hotelId,
+          ParamType.String,
+        ),
+        'chainCode': serializeParam(
+          _chainCode,
+          ParamType.String,
+        ),
+        'dupeId': serializeParam(
+          _dupeId,
+          ParamType.String,
+        ),
+        'cityCode': serializeParam(
+          _cityCode,
+          ParamType.String,
+        ),
+        'latitude': serializeParam(
+          _latitude,
+          ParamType.double,
+        ),
+        'longitude': serializeParam(
+          _longitude,
           ParamType.double,
         ),
       }.withoutNulls;
@@ -125,6 +225,41 @@ class HotelStruct extends FFFirebaseStruct {
           ParamType.double,
           false,
         ),
+        type: deserializeParam(
+          data['type'],
+          ParamType.String,
+          false,
+        ),
+        hotelId: deserializeParam(
+          data['hotelId'],
+          ParamType.String,
+          false,
+        ),
+        chainCode: deserializeParam(
+          data['chainCode'],
+          ParamType.String,
+          false,
+        ),
+        dupeId: deserializeParam(
+          data['dupeId'],
+          ParamType.String,
+          false,
+        ),
+        cityCode: deserializeParam(
+          data['cityCode'],
+          ParamType.String,
+          false,
+        ),
+        latitude: deserializeParam(
+          data['latitude'],
+          ParamType.double,
+          false,
+        ),
+        longitude: deserializeParam(
+          data['longitude'],
+          ParamType.double,
+          false,
+        ),
       );
 
   @override
@@ -137,12 +272,31 @@ class HotelStruct extends FFFirebaseStruct {
         name == other.name &&
         location == other.location &&
         price == other.price &&
-        oldPrice == other.oldPrice;
+        oldPrice == other.oldPrice &&
+        type == other.type &&
+        hotelId == other.hotelId &&
+        chainCode == other.chainCode &&
+        dupeId == other.dupeId &&
+        cityCode == other.cityCode &&
+        latitude == other.latitude &&
+        longitude == other.longitude;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([image, name, location, price, oldPrice]);
+  int get hashCode => const ListEquality().hash([
+        image,
+        name,
+        location,
+        price,
+        oldPrice,
+        type,
+        hotelId,
+        chainCode,
+        dupeId,
+        cityCode,
+        latitude,
+        longitude
+      ]);
 }
 
 HotelStruct createHotelStruct({
@@ -151,6 +305,13 @@ HotelStruct createHotelStruct({
   String? location,
   double? price,
   double? oldPrice,
+  String? type,
+  String? hotelId,
+  String? chainCode,
+  String? dupeId,
+  String? cityCode,
+  double? latitude,
+  double? longitude,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -162,6 +323,13 @@ HotelStruct createHotelStruct({
       location: location,
       price: price,
       oldPrice: oldPrice,
+      type: type,
+      hotelId: hotelId,
+      chainCode: chainCode,
+      dupeId: dupeId,
+      cityCode: cityCode,
+      latitude: latitude,
+      longitude: longitude,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,
